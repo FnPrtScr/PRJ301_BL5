@@ -20,6 +20,8 @@ from Leave
 where eid=?
 
 
+--
+
 --hien thi luong cua nhan vien bat ky
 select e.eid,[name],office,s.salary from Employee e inner join SalaryOffice s 
 on s.eid=e.eid
