@@ -64,7 +64,9 @@ h2{
 }
 
 
-
+#footer-guild{
+    display: flex;
+}
 #footer-kyhieuchamcong{
     margin: 10px 10px 0px 80px;
     width: 250px;
@@ -72,13 +74,25 @@ h2{
     border-top-right-radius: 10px;
     border-top-left-radius: 10px;
     background-color: rgb(255, 165, 0);
-    
+}
+#footer-bangtinhluong{
+    margin: 10px 10px 0px 416px;
+    width: 250px;
+    text-align: center;
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+    background-color: rgb(255, 165, 0);
+}
+
+
+.table-tinhluong{
+    margin-left: 144px;
 }
 
 #footer-button{
     text-align: center;
-    margin-left: 300px;
-    margin-top: 100px;
+    margin-left: 200px;
+    margin-top: 20px;
 }
 
 .button {
