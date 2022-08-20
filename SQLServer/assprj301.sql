@@ -31,3 +31,9 @@ where e.eid=?
 select e.eid,[name],office,sa.datesa,sa.howmuchsa,sa.reasonsa,sa.acceptsa from Employee e inner join SalaryAdvance sa
 on sa.eid=e.eid
 where e.eid=?
+
+
+--hien thi nhung nguoi di lam trong 1 ngay bat ky
+SELECT e.eid,[name], ISNULL(w.wid,-1) wid, w.wdate FROM Employee e 
+LEFT JOIN (SELECT * FROM Working WHERE wdate >= ? AND wdate <= ? ) w 
+ON e.eid = w.eid
