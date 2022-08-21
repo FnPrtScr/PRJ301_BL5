@@ -11,6 +11,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import model.Employee;
 import model.Leave;
 import model.Working;
@@ -21,102 +23,69 @@ import model.Working;
  */
 public class EmployeeDBContext extends DBContext {
 
+    public Employee getEmployeeById(int eid) throws SQLException {
+        try {
+            String sql = "SELECT * FROM Employee WHERE eid = ?";
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setInt(1, eid);
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {
+                Employee employee = new Employee();
+                employee.setEid(rs.getInt("eid"));
+                employee.setName(rs.getString("name"));
+                employee.setOffice(rs.getString("office"));
+                return employee;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(EmployeeDBContext.class.getName()).log(Level.SEVERE, null, ex);
 
-    public ArrayList<Employee> getWorkingEmployees(Date begin, Date end) {
+        }
+        return null;
+    }
+
+    public ArrayList<Employee> getAllEmployee() {
         ArrayList<Employee> employees = new ArrayList<>();
         try {
-            String sql = "SELECT e.eid,[name], ISNULL(w.wid,-1) wid, w.wdate FROM Employee e \n"
-                    + "LEFT JOIN (SELECT * FROM Working WHERE wdate >= ? AND wdate <= ? ) w \n"
-                    + "ON e.eid = w.eid";
+            String sql = "SELECT * FROM Employee";
             PreparedStatement stm = connection.prepareStatement(sql);
             ResultSet rs = stm.executeQuery();
-            Employee curEmp = new Employee();
-            curEmp.setEid(-1);
             while (rs.next()) {
-                int eid = rs.getInt("eid");
-                String name = rs.getString("name");
-                String office = rs.getString("office");
-                Employee employee = new Employee(eid, name, office);
-                employees.add(employee);
+                employees.add(getEmployeeById(rs.getInt("eid")));
             }
-            int wid = rs.getInt("wid");
-            if (wid != -1) {
-                Working w = new Working();
-                w.setWid(wid);
-                w.setEid(curEmp);
-                w.setWid(wid);
-                w.setWdate(DateTimeHelper.getDateFrom(rs.getTimestamp("wdate")));
-                curEmp.getWorking().add(w);
-            }
-        } catch (SQLException e) {
-            System.out.println(e);
+        } catch (SQLException ex) {
+            Logger.getLogger(EmployeeDBContext.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-//        try {
-//            String sql = "SELECT e.eid,[name], ISNULL(l.lid,-1) lid, l.lfrom,lto FROM Employee e \n"
-//                    + "LEFT JOIN (SELECT * FROM Leave WHERE lfrom >= ? and lto <= ? ) l \n"
-//                    + "ON e.eid = l.eid";
-//            PreparedStatement stm = connection.prepareStatement(sql);
-//            ResultSet rs = stm.executeQuery();
-//            Employee curEmp = new Employee();
-//            curEmp.setEid(-1);
-//            while (rs.next()) {
-//                int eid = rs.getInt("eid");
-//                String name = rs.getString("name");
-//                String office = rs.getString("office");
-//                Employee employee = new Employee(eid, name, office);
-//                employees.add(employee);
-//            }
-//            int lid = rs.getInt("lid");
-//            String reason=rs.getString("reason");
-//            if (lid != -1) {
-//                Leave l = new Leave();
-//                l.setLid(lid);
-//                l.setEid(curEmp);
-//                l.setReason(reason);
-//                l.setLfrom(DateTimeHelper.getDateFrom(rs.getTimestamp("lfrom")));
-//                l.setLto(DateTimeHelper.getDateFrom(rs.getTimestamp("lto")));
-//                curEmp.getLeaves().add(l);
-//            }
-//        } catch (SQLException e) {
-//            System.out.println(e);
-//        }
-        
+
         return employees;
-        
     }
-//
-//    public void getLeaveEmployees(Date begin, Date end) {
-//        List<Employee> employees = new ArrayList<>();
-//        try {
-//            String sql = "SELECT e.eid,[name], ISNULL(l.lid,-1) lid, l.lfrom,lto FROM Employee e \n"
-//                    + "LEFT JOIN (SELECT * FROM Leave WHERE lfrom >= ? and lto <= ? ) l \n"
-//                    + "ON e.eid = l.eid";
-//            PreparedStatement stm = connection.prepareStatement(sql);
-//            ResultSet rs = stm.executeQuery();
-//            Employee curEmp = new Employee();
-//            curEmp.setEid(-1);
-//            while (rs.next()) {
-//                int eid = rs.getInt("eid");
-//                String name = rs.getString("name");
-//                String office = rs.getString("office");
-//                Employee employee = new Employee(eid, name, office);
-//                employees.add(employee);
-//            }
-//            int lid = rs.getInt("lid");
-//            String reason=rs.getString("reason");
-//            if (lid != -1) {
-//                Leave l = new Leave();
-//                l.setLid(lid);
-//                l.setEid(curEmp);
-//                l.setReason(reason);
-//                l.setLfrom(DateTimeHelper.getDateFrom(rs.getTimestamp("lfrom")));
-//                l.setLto(DateTimeHelper.getDateFrom(rs.getTimestamp("lto")));
-//                curEmp.getLeaves().add(l);
-//            }
-//        } catch (SQLException e) {
-//            System.out.println(e);
-//        }
-//    }
-//    
-}
+
+    public ArrayList<Working> getTimeSheet(int month) {
+        ArrayList<Working> working = new ArrayList<>();
+        try {
+            String sql = "SELECT e.eid, e.name, w.wdate FROM Employee e, SalaryOffice s, Working w \n"
+                    + "                            WHERE e.office = s.office AND e.eid = w.eid AND MONTH(w.wdate) = ?";
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setInt(1, month);
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {
+                Working w = new Working();
+                w.setEid(rs.getInt("eid"));
+                w.setWdate(rs.getDate("wdate"));
+                working.add(w);
+            return working;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(EmployeeDBContext.class.getName()).log(Level.SEVERE, null, ex);
+
+        }
+        return null;
+    }
+
+    public static void main(String[] args) {
+        EmployeeDBContext ts = new EmployeeDBContext();
+        ArrayList<Working> timesheet = ts.getTimeSheet(7);
+        for (Working working : timesheet) {
+            System.out.println(working.getWdate());
+        }}
+
+    }

@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import model.Employee;
+import model.Working;
 
 /**
  *
@@ -48,17 +49,27 @@ public class TimeSheetReportController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Date today =new Date();
+        
+        Date today = new Date();
         today = DateTimeHelper.removeTime(today);
-        int dayOfMonth= DateTimeHelper.getDayOfMonth(today);
-        Date begin =DateTimeHelper.addDays(today, -1*(dayOfMonth-1));
-        Date end =DateTimeHelper.addDays(DateTimeHelper.addMonths(begin, 1), -1);
-        List<Date> dates = DateTimeHelper.getDates(begin, end);
+        int dayOfMonth = DateTimeHelper.getDayOfMonth(today);
+        Date begin = DateTimeHelper.addDays(today, -1 * (dayOfMonth - 1));
+        Date end = DateTimeHelper.addDays(DateTimeHelper.addMonths(begin, 1), -1);
+        ArrayList<Date> dates = DateTimeHelper.getDates(begin, end);
+        
+        request.setAttribute("dates", dates);
+        request.setAttribute("dates", dates);
+
         EmployeeDBContext db=new EmployeeDBContext();
-        ArrayList<Employee> employees = db.getWorkingEmployees(begin, DateTimeHelper.addDays(end,1));
-        request.setAttribute("dates", dates);
-        request.setAttribute("dates", dates);
+        
+        ArrayList<Employee> employees = db.getAllEmployee();
         request.setAttribute("employees", employees);
+        
+        
+        ArrayList<Working> working = db.getTimeSheet(7);
+        
+        request.setAttribute("working", working);        
+        
         request.getRequestDispatcher("report.jsp").forward(request, response);
     }
 

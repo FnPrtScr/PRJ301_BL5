@@ -83,218 +83,32 @@
             <th>Lí Do Khác</th>
             <tr></tr>
 
+            <c:forEach items="${requestScope.employees}" var="e">
+                <tr>
+                    <td>${e.eid}</td>
+                    <td>${e.name}</td>
+                    <td>${e.office}</td>
+                    <c:forEach items="${requestScope.dates}" var="d">
+                        <th
+                            <c:if test="${dt.getDayOfWeek(d) eq 6 or dt.getDayOfWeek(d) eq 7}">
+                                style="background-color: orange;"
+                            </c:if>
+                            >
+                            <c:forEach items="${requestScope.working}" var="w">
+                                <c:if test="${e.eid eq w.eid}">
+                                    x
+                                </c:if>
+                            </c:forEach>
+                        </th>
+
+                    </c:forEach>
 
 
-            <tr>
-                <th>1</th>
-                <th>Khúc Chí Khoản</th>
-                <th>Giám Đốc</th>
-                <th>x</th>
-                <th>x</th>
-                <th>P</th>
-                <th>P</th>
-                <th>x</th>
-                <th>x</th>
-                <th>x</th>
-                <th>x|U</th>
-                <th>x</th>
-                <th>x</th>
-                <th>x</th>
-                <th>x</th>
-                <th>x</th>
-                <th>x</th>
-                <th>x</th>
-                <th>x</th>
-                <th>x</th>
-                <th>K</th>
-                <th>x</th>
-                <th>x</th>
-                <th>x</th>
-                <th>x</th>
-                <th>x</th>
-                <th>x</th>
-                <th>x</th>
-                <th>x</th>
-                <th>K</th>
-                <th>K</th>
-                <th>x</th>
-                <th>x</th>
-                <th>x</th>
-                <th>26</th>
-                <th>4.000.000</th>
-                <th>3.0</th>
-                <th>2.0</th>
-                <th>0</th>
-                <th>6.400.000</th>
-            </tr>
-            <tr>
-                <th>2</th>
-                <th>Nguyễn Thị Liễu</th>
-                <th>Thư Ký/Kế Toán</th>
-                <th>x</th>
-                <th>x</th>
-                <th>x</th>
-                <th>x</th>
-                <th>x</th>
-                <th>x</th>
-                <th>x</th>
-                <th>x</th>
-                <th>x</th>
-                <th>x</th>
-                <th>x|U</th>
-                <th>P</th>
-                <th>P</th>
-                <th>P</th>
-                <th>x</th>
-                <th>x</th>
-                <th>x</th>
-                <th>x</th>
-                <th>x</th>
-                <th>x</th>
-                <th>x</th>
-                <th>x</th>
-                <th>x</th>
-                <th>x</th>
-                <th>x</th>
-                <th>x</th>
-                <th>x</th>
-                <th>x</th>
-                <th>x</th>
-                <th>x</th>
-                <th>x</th>
-                <th>28</th>
-                <th>4.000.000</th>
-                <th>0</th>
-                <th>3</th>
-                <th>0</th>
-                <th>4.400.000</th>
-            </tr>
-            <tr>
-                <th>3</th>
-                <th>Khúc Chí Khiêm</th>
-                <th>Phó giám Đốc/Quản Lý</th>
-                <th>O|U</th>
-                <th>O</th>
-                <th>O</th>
-                <th>x</th>
-                <th>x</th>
-                <th>x</th>
-                <th>x</th>
-                <th>x</th>
-                <th>x</th>
-                <th>x</th>
-                <th>x</th>
-                <th>x</th>
-                <th>x</th>
-                <th>P|U</th>
-                <th>x</th>
-                <th>x</th>
-                <th>x</th>
-                <th>x</th>
-                <th>x</th>
-                <th>x</th>
-                <th>x</th>
-                <th>K</th>
-                <th>x</th>
-                <th>x</th>
-                <th>x</th>
-                <th>x</th>
-                <th>x</th>
-                <th>x</th>
-                <th>x</th>
-                <th>x</th>
-                <th>x</th>
-                <th>26</th>
-                <th>5.500.000</th>
-                <th>1</th>
-                <th>1</th>
-                <th>3</th>
-                <th>2.300.000</th>
-            </tr>
-            <tr>
-                <th>4</th>
-                <th>Khúc Chí Thành</th>
-                <th>Quản Lý</th>
-                <th>x</th>
-                <th>x</th>
-                <th>x</th>
-                <th>x</th>
-                <th>x</th>
-                <th>x</th>
-                <th>x</th>
-                <th>x</th>
-                <th>x</th>
-                <th>x</th>
-                <th>x</th>
-                <th>x</th>
-                <th>x</th>
-                <th>x</th>
-                <th>x</th>
-                <th>x</th>
-                <th>x</th>
-                <th>x</th>
-                <th>x</th>
-                <th>x</th>
-                <th>x</th>
-                <th>x</th>
-                <th>x</th>
-                <th>x</th>
-                <th>x</th>
-                <th>x</th>
-                <th>x</th>
-                <th>x</th>
-                <th>x</th>
-                <th>x</th>
-                <th>x</th>
-                <th>31</th>
-                <th>0</th>
-                <th>0</th>
-                <th>0</th>
-                <th>0</th>
-                <th>7.750.000</th>
-            </tr>
-            <tr>
-                <th>5</th>
-                <th>Nguyễn Thị Thêu</th>
-                <th>N.v Bán Hàng</th>
-                <th>x</th>
-                <th>x</th>
-                <th>x</th>
-                <th>x</th>
-                <th>x|U</th>
-                <th>x</th>
-                <th>x</th>
-                <th>x</th>
-                <th>x</th>
-                <th>x</th>
-                <th>x</th>
-                <th>Co</th>
-                <th>Co|U</th>
-                <th>Co</th>
-                <th>Co</th>
-                <th>x</th>
-                <th>x</th>
-                <th>x</th>
-                <th>x</th>
-                <th>x</th>
-                <th>x</th>
-                <th>x</th>
-                <th>x</th>
-                <th>x</th>
-                <th>x</th>
-                <th>x</th>
-                <th>x</th>
-                <th>x</th>
-                <th>x</th>
-                <th>x</th>
-                <th>x</th>
-                <th>27</th>
-                <th>3.000.000</th>
-                <th>0</th>
-                <th>0</th>
-                <th>4</th>
-                <th>2.400.000</th>
-            </tr>
+
+                </tr>
+
+            </c:forEach>
+
         </table>
         <br>
         <div id="footer-guild">
