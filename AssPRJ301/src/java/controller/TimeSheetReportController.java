@@ -51,7 +51,7 @@ public class TimeSheetReportController extends HttpServlet {
         Date today =new Date();
         today = DateTimeHelper.removeTime(today);
         int dayOfMonth= DateTimeHelper.getDayOfMonth(today);
-        Date begin =DateTimeHelper.addDays(today, -(dayOfMonth-1));
+        Date begin =DateTimeHelper.addDays(today, -1*(dayOfMonth-1));
         Date end =DateTimeHelper.addDays(DateTimeHelper.addMonths(begin, 1), -1);
         List<Date> dates = DateTimeHelper.getDates(begin, end);
         EmployeeDBContext db=new EmployeeDBContext();

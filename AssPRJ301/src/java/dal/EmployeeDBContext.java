@@ -51,35 +51,36 @@ public class EmployeeDBContext extends DBContext {
         } catch (SQLException e) {
             System.out.println(e);
         }
-        try {
-            String sql = "SELECT e.eid,[name], ISNULL(l.lid,-1) lid, l.lfrom,lto FROM Employee e \n"
-                    + "LEFT JOIN (SELECT * FROM Leave WHERE lfrom >= ? and lto <= ? ) l \n"
-                    + "ON e.eid = l.eid";
-            PreparedStatement stm = connection.prepareStatement(sql);
-            ResultSet rs = stm.executeQuery();
-            Employee curEmp = new Employee();
-            curEmp.setEid(-1);
-            while (rs.next()) {
-                int eid = rs.getInt("eid");
-                String name = rs.getString("name");
-                String office = rs.getString("office");
-                Employee employee = new Employee(eid, name, office);
-                employees.add(employee);
-            }
-            int lid = rs.getInt("lid");
-            String reason=rs.getString("reason");
-            if (lid != -1) {
-                Leave l = new Leave();
-                l.setLid(lid);
-                l.setEid(curEmp);
-                l.setReason(reason);
-                l.setLfrom(DateTimeHelper.getDateFrom(rs.getTimestamp("lfrom")));
-                l.setLto(DateTimeHelper.getDateFrom(rs.getTimestamp("lto")));
-                curEmp.getLeaves().add(l);
-            }
-        } catch (SQLException e) {
-            System.out.println(e);
-        }
+        
+//        try {
+//            String sql = "SELECT e.eid,[name], ISNULL(l.lid,-1) lid, l.lfrom,lto FROM Employee e \n"
+//                    + "LEFT JOIN (SELECT * FROM Leave WHERE lfrom >= ? and lto <= ? ) l \n"
+//                    + "ON e.eid = l.eid";
+//            PreparedStatement stm = connection.prepareStatement(sql);
+//            ResultSet rs = stm.executeQuery();
+//            Employee curEmp = new Employee();
+//            curEmp.setEid(-1);
+//            while (rs.next()) {
+//                int eid = rs.getInt("eid");
+//                String name = rs.getString("name");
+//                String office = rs.getString("office");
+//                Employee employee = new Employee(eid, name, office);
+//                employees.add(employee);
+//            }
+//            int lid = rs.getInt("lid");
+//            String reason=rs.getString("reason");
+//            if (lid != -1) {
+//                Leave l = new Leave();
+//                l.setLid(lid);
+//                l.setEid(curEmp);
+//                l.setReason(reason);
+//                l.setLfrom(DateTimeHelper.getDateFrom(rs.getTimestamp("lfrom")));
+//                l.setLto(DateTimeHelper.getDateFrom(rs.getTimestamp("lto")));
+//                curEmp.getLeaves().add(l);
+//            }
+//        } catch (SQLException e) {
+//            System.out.println(e);
+//        }
         
         return employees;
         
