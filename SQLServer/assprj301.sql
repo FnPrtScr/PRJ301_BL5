@@ -37,3 +37,8 @@ where e.eid=?
 SELECT e.eid,[name], ISNULL(w.wid,-1) wid, w.wdate FROM Employee e 
 LEFT JOIN (SELECT * FROM Working WHERE wdate >= ? AND wdate <= ? ) w 
 ON e.eid = w.eid
+
+--hien thi nhung nguoi nghi lam trong 1 ngay bat ky
+SELECT e.eid,[name], ISNULL(l.lid,-1) lid, l.lfrom,lto FROM Employee e 
+LEFT JOIN (SELECT * FROM Leave WHERE lfrom >= ? and lto <= ? ) l 
+ON e.eid = l.eid

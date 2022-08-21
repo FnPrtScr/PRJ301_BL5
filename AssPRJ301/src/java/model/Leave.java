@@ -4,6 +4,7 @@
  */
 package model;
 
+import helper.DateTimeHelper;
 import java.util.Date;
 
 /**
@@ -11,21 +12,27 @@ import java.util.Date;
  * @author MrTuan
  */
 public class Leave {
-    private int lid;
-    private Employee eid;
-    private Date ldate;
-    private String reason;
-    private boolean acceptleave;
+   private int lid;
+   private Employee eid;
+   private Date lfrom;
+   private Date lto;
+   private String reason;
+   private boolean acceptleave;
 
     public Leave() {
     }
 
-    public Leave(int lid, Employee eid, Date ldate, String reason, boolean acceptleave) {
+    public Leave(int lid, Employee eid, Date lfrom, Date lto, String reason, boolean acceptleave) {
         this.lid = lid;
         this.eid = eid;
-        this.ldate = ldate;
+        this.lfrom = lfrom;
+        this.lto = lto;
         this.reason = reason;
         this.acceptleave = acceptleave;
+    }
+    public int getTotalDays()
+    {
+        return DateTimeHelper.getDates(lfrom, lto).size();
     }
 
     public int getLid() {
@@ -44,12 +51,20 @@ public class Leave {
         this.eid = eid;
     }
 
-    public Date getLdate() {
-        return ldate;
+    public Date getLfrom() {
+        return lfrom;
     }
 
-    public void setLdate(Date ldate) {
-        this.ldate = ldate;
+    public void setLfrom(Date lfrom) {
+        this.lfrom = lfrom;
+    }
+
+    public Date getLto() {
+        return lto;
+    }
+
+    public void setLto(Date lto) {
+        this.lto = lto;
     }
 
     public String getReason() {
@@ -67,8 +82,7 @@ public class Leave {
     public void setAcceptleave(boolean acceptleave) {
         this.acceptleave = acceptleave;
     }
-    
-    
-    
+   
+   
     
 }

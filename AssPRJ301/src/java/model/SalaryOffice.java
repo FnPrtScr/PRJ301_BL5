@@ -9,33 +9,23 @@ package model;
  * @author MrTuan
  */
 public class SalaryOffice {
-    private int sid;
-    private Employee eid;
+    private String office;
     private float salary;
 
     public SalaryOffice() {
     }
 
-    public SalaryOffice(int sid, Employee eid, float salary) {
-        this.sid = sid;
-        this.eid = eid;
+    public SalaryOffice(String office, float salary) {
+        this.office = office;
         this.salary = salary;
     }
 
-    public int getSid() {
-        return sid;
+    public String getOffice() {
+        return office;
     }
 
-    public void setSid(int sid) {
-        this.sid = sid;
-    }
-
-    public Employee getEid() {
-        return eid;
-    }
-
-    public void setEid(Employee eid) {
-        this.eid = eid;
+    public void setOffice(String office) {
+        this.office = office;
     }
 
     public float getSalary() {
@@ -45,5 +35,6 @@ public class SalaryOffice {
     public void setSalary(float salary) {
         this.salary = salary;
     }
+    
     
 }
