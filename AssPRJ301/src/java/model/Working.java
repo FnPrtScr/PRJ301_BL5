@@ -13,7 +13,8 @@ import java.util.Date;
  */
 public class Working {
     private int wid;
-    private int eid;
+//    private int eid;
+    private Employee eid;
     private Date wdate; 
     private Date cidate; 
 
@@ -23,7 +24,7 @@ public class Working {
         return DateTimeHelper.removeTime(wdate);
     }
 
-    public Working(int wid, int eid, Date wdate) {
+    public Working(int wid, Employee eid, Date wdate) {
         this.wid = wid;
         this.eid = eid;
         this.wdate = wdate;
@@ -37,11 +38,11 @@ public class Working {
         this.wid = wid;
     }
 
-    public int getEid() {
+    public Employee getEid() {
         return eid;
     }
 
-    public void setEid(int eid) {
+    public void setEid(Employee eid) {
         this.eid = eid;
     }
 

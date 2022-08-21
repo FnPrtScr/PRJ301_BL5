@@ -61,14 +61,14 @@ public class TimeSheetReportController extends HttpServlet {
         request.setAttribute("dates", dates);
 
         EmployeeDBContext db=new EmployeeDBContext();
-        
+//        ArrayList<Employee> employees = db.getEmployee(today);
         ArrayList<Employee> employees = db.getAllEmployee();
         request.setAttribute("employees", employees);
         
         
-        ArrayList<Working> working = db.getTimeSheet(7);
-        
-        request.setAttribute("working", working);        
+//        ArrayList<Working> working = db.getWorking();
+//        
+//        request.setAttribute("working", working);        
         
         request.getRequestDispatcher("report.jsp").forward(request, response);
     }
