@@ -26,24 +26,12 @@
         <h3>
             <b id="banner">THÁNG 08/2022</b>
         </h3>
-        <h4>
-            <i>
-                <b><select class="month">
-                        <option>Tháng 1</option>
-                        <option>Tháng 2</option>
-                        <option>Tháng 3</option>
-                        <option>Tháng 4</option>
-                        <option>Tháng 5</option>
-                        <option>Tháng 6</option>
-                        <option>Tháng 7</option>
-                        <option>Tháng 8</option>
-                        <option>Tháng 9</option>
-                        <option>Tháng 10</option>
-                        <option>Tháng 11</option>
-                        <option>Tháng 12</option>
-                    </select></b>
-            </i>
-        </h4>
+        <form class="months" action="report" method="post">
+            <p>Tháng</p>
+            <input type="month" id="months" name="months">
+            <button type="submit">Go</button>
+        </form>
+
         <table clas="container-table" border="1" width="1900px" height="150px">
             <tr></tr>
             <th rowspan="5" >TT</th>
@@ -83,11 +71,12 @@
             <th>Lí Do Khác</th>
             <tr></tr>
 
-            <c:forEach items="${requestScope.employees}" var="e">
+            <c:forEach items="${requestScope.total}" var="tl">
+
                 <tr>
-                    <td>${e.eid}</td>
-                    <td>${e.name}</td>
-                    <td>${e.office}</td>
+                    <td>${tl.eid}</td>
+                    <td>${tl.name}</td>
+                    <td>${tl.office}</td>
                     <c:forEach items="${requestScope.dates}" var="d">
                         <th
                             <c:if test="${dt.getDayOfWeek(d) eq 6 or dt.getDayOfWeek(d) eq 7}">
@@ -95,15 +84,15 @@
                             </c:if>
                             >
                             <c:forEach items="${requestScope.working}" var="w">
-                                <c:if test="${e.eid eq w.eid}">
+                                <c:if test="${w.wdate eq d && w.eid eq tl.eid}">
                                     x
                                 </c:if>
                             </c:forEach>
+
                         </th>
 
                     </c:forEach>
-
-
+                    <th>${tl.getNumberOfWorkingDays()}</th>
 
                 </tr>
 

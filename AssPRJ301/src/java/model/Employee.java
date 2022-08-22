@@ -5,7 +5,6 @@
 package model;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  *
@@ -15,14 +14,14 @@ public class Employee {
     private int eid;
     private String name;
     private String office;
-    private List<Working> working = new ArrayList<>();
-    private List<Leave> leaves = new ArrayList<>();
+    private ArrayList<Working> working = new ArrayList<>();
+    private ArrayList<Leave> leaves = new ArrayList<>();
 //working
-    public List<Working> getWorking() {
+    public ArrayList<Working> getWorking() {
         return working;
     }
 
-    public void setWorking(List<Working> working) {
+    public void setWorking(ArrayList<Working> working) {
         this.working = working;
     }
     
@@ -30,11 +29,11 @@ public class Employee {
         return working.size();
     }
 //leave
-    public List<Leave> getLeaves() {
+    public ArrayList<Leave> getLeaves() {
         return leaves;
     }
 
-    public void setLeaves(List<Leave> leaves) {
+    public void setLeaves(ArrayList<Leave> leaves) {
         this.leaves = leaves;
     }
     
@@ -46,7 +45,6 @@ public class Employee {
         return sum;
     }
     
-
     public Employee() {
     }
 

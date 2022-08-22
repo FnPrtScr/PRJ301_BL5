@@ -16,15 +16,15 @@ import java.util.Date;
  * @author MrTuan
  */
 public class DateTimeHelper {
+
     public static int getDayOfMonth(Date datetime) {
         LocalDate localDate = datetime.toInstant()
                 .atZone(ZoneId.systemDefault())
                 .toLocalDate();
         return localDate.getDayOfMonth();
     }
-    
-    public static Timestamp getTimeStamp(Date date)
-    {
+
+    public static Timestamp getTimeStamp(Date date) {
         return new Timestamp(date.getTime());
     }
 
@@ -42,7 +42,7 @@ public class DateTimeHelper {
         Date newdate = c.getTime();
         return newdate;
     }
-    
+
     public static Date addMonths(Date d, int months) {
         Calendar c = Calendar.getInstance();
         c.setTime(d);
@@ -51,7 +51,18 @@ public class DateTimeHelper {
         return newdate;
     }
 
-    public static Date removeTime(Date d) {
+    public static Date removeTime(int year, int month) {
+        Calendar c = Calendar.getInstance();
+        c.set(year, month, 1);
+        c.set(Calendar.HOUR_OF_DAY, 0);
+        c.set(Calendar.MINUTE, 0);
+        c.set(Calendar.SECOND, 0);
+        c.set(Calendar.MILLISECOND, 0);
+        Date newdate = c.getTime();
+        return newdate;
+    }
+
+    public static Date removeTime2(Date d) {
         Calendar c = Calendar.getInstance();
         c.setTime(d);
         c.set(Calendar.HOUR_OF_DAY, 0);
@@ -61,25 +72,23 @@ public class DateTimeHelper {
         Date newdate = c.getTime();
         return newdate;
     }
-    
-    public static ArrayList<Date> getDates(Date from, Date to)
-    {
+
+    public static ArrayList<Date> getDates(Date from, Date to) {
         ArrayList<Date> dates = new ArrayList<>();
         int count = 0;
-        while(true)
-        {
-            
+        while (true) {
+
             Date item = addDays(from, count);
             dates.add(item);
             count++;
-            if(item.getTime() == to.getTime())
+            if (item.getTime() == to.getTime()) {
                 break;
+            }
         }
         return dates;
     }
-    
-    public static Date getDateFrom(Timestamp ts)
-    {
+
+    public static Date getDateFrom(Timestamp ts) {
         return new Date(ts.getTime());
     }
 }

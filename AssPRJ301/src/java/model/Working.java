@@ -4,7 +4,6 @@
  */
 package model;
 
-import helper.DateTimeHelper;
 import java.util.Date;
 
 /**
@@ -13,20 +12,17 @@ import java.util.Date;
  */
 public class Working {
     private int wid;
-//    private int eid;
-    private Employee eid;
+    private int eid;
+    private Employee emp;
     private Date wdate; 
-    private Date cidate; 
 
     public Working() {
     }
-    public Date getCidate() {
-        return DateTimeHelper.removeTime(wdate);
-    }
 
-    public Working(int wid, Employee eid, Date wdate) {
+    public Working(int wid, int eid, Employee emp, Date wdate) {
         this.wid = wid;
         this.eid = eid;
+        this.emp = emp;
         this.wdate = wdate;
     }
 
@@ -38,12 +34,20 @@ public class Working {
         this.wid = wid;
     }
 
-    public Employee getEid() {
+    public int getEid() {
         return eid;
     }
 
-    public void setEid(Employee eid) {
+    public void setEid(int eid) {
         this.eid = eid;
+    }
+
+    public Employee getEmp() {
+        return emp;
+    }
+
+    public void setEmp(Employee emp) {
+        this.emp = emp;
     }
 
     public Date getWdate() {
@@ -53,5 +57,7 @@ public class Working {
     public void setWdate(Date wdate) {
         this.wdate = wdate;
     }
+
+
     
 }

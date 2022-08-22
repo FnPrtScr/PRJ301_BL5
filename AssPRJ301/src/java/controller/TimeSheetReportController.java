@@ -49,28 +49,32 @@ public class TimeSheetReportController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-        Date today = new Date();
-        today = DateTimeHelper.removeTime(today);
-        int dayOfMonth = DateTimeHelper.getDayOfMonth(today);
-        Date begin = DateTimeHelper.addDays(today, -1 * (dayOfMonth - 1));
-        Date end = DateTimeHelper.addDays(DateTimeHelper.addMonths(begin, 1), -1);
-        ArrayList<Date> dates = DateTimeHelper.getDates(begin, end);
-        
-        request.setAttribute("dates", dates);
-        request.setAttribute("dates", dates);
-
-        EmployeeDBContext db=new EmployeeDBContext();
-//        ArrayList<Employee> employees = db.getEmployee(today);
-        ArrayList<Employee> employees = db.getAllEmployee();
-        request.setAttribute("employees", employees);
-        
-        
-//        ArrayList<Working> working = db.getWorking();
+//        String m=request.getParameter("months");
+//        String[] list = m.split("-");
+//        int year=Integer.parseInt(list[0]);
+//        int month=Integer.parseInt(list[1]);
+////        Date today = new Date();
+//        Date today = DateTimeHelper.removeTime(year,month-1);
+//        int dayOfMonth = DateTimeHelper.getDayOfMonth(today);
+//        Date begin = DateTimeHelper.addDays(today, -1 * (dayOfMonth - 1));
+//        Date end = DateTimeHelper.addDays(DateTimeHelper.addMonths(begin, 1), -1);
+//        ArrayList<Date> dates = DateTimeHelper.getDates(begin, end);
+//        
+//        request.setAttribute("dates", dates);
+//        request.setAttribute("dates", dates);
+//
+//        EmployeeDBContext db=new EmployeeDBContext();
+//        
+//        ArrayList<Employee> employees = db.getAllEmployee();
+//        request.setAttribute("employees", employees);
+//        
+//        
+//        ArrayList<Working> working = db.getTimeSheet(7);
 //        
 //        request.setAttribute("working", working);        
-        
-        request.getRequestDispatcher("report.jsp").forward(request, response);
+//        
+//        request.getRequestDispatcher("report.jsp").forward(request, response);
+        response.sendRedirect("report.jsp");
     }
 
     /**
@@ -84,7 +88,33 @@ public class TimeSheetReportController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        String m = request.getParameter("months");
+        String[] list = m.split("-");
+        int year = Integer.parseInt(list[0]);
+        int month = Integer.parseInt(list[1]);
+        Date today = DateTimeHelper.removeTime(year, month - 1);
+        int dayOfMonth = DateTimeHelper.getDayOfMonth(today);
+        Date begin = DateTimeHelper.addDays(today, -1 * (dayOfMonth - 1));
+        Date end = DateTimeHelper.addDays(DateTimeHelper.addMonths(begin, 1), -1);
+        ArrayList<Date> dates = DateTimeHelper.getDates(begin, end);
+        
+        request.setAttribute("dates", dates);
+        request.setAttribute("dates", dates);
+        
+        EmployeeDBContext db = new EmployeeDBContext();
+        
+//        
+//        ArrayList<Employee> employees = db.getAllEmployee();
+//        request.setAttribute("employees", employees);
+        ArrayList<Employee> total=db.getEmployees(7);
+        request.setAttribute("total", total);
+        
+//        working
+        ArrayList<Working> working = db.getTimeSheet(7);
+        request.setAttribute("working", working);        
+       
+        
+        request.getRequestDispatcher("report.jsp").forward(request, response);
     }
 
     /**
