@@ -90,6 +90,11 @@ public class TimeSheetReportController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String m = request.getParameter("months");
+//        String totalworking = request.getParameter("totalworking");
+//        String totalleave = request.getParameter("totalleave");
+//        String totalsalary = request.getParameter("totalsalary");
+//        String save = request.getParameter("save");
+
         String[] list = m.split("-");
         int year = Integer.parseInt(list[0]);
         int month = Integer.parseInt(list[1]);
@@ -98,27 +103,26 @@ public class TimeSheetReportController extends HttpServlet {
         Date begin = DateTimeHelper.addDays(today, -1 * (dayOfMonth - 1));
         Date end = DateTimeHelper.addDays(DateTimeHelper.addMonths(begin, 1), -1);
         ArrayList<Date> dates = DateTimeHelper.getDates(begin, end);
-        
+
         request.setAttribute("dates", dates);
         request.setAttribute("dates", dates);
-        
+
         EmployeeDBContext db = new EmployeeDBContext();
-        
+
 //        get total working
-        ArrayList<Employee> totalWorking=db.getTotalWorking(7);
+        ArrayList<Employee> totalWorking = db.getTotalWorking(7);
         request.setAttribute("totalWorking", totalWorking);
-        
+
 //        working timesheet
         ArrayList<Working> working = db.Working(7);
-        request.setAttribute("working", working); 
+        request.setAttribute("working", working);
 //        leave timesheet
-        ArrayList<Leave> leave = db.Leave(7,8);
-        request.setAttribute("leave", leave);        
-       
+        ArrayList<Leave> leave = db.Leave(7, 7);
+        request.setAttribute("leave", leave);
+
 //        get total leave
 //        ArrayList<Employee> totalLeave=db.getTotalLeave(7,7);
 //        request.setAttribute("totalLeave",totalLeave);
-        
         request.getRequestDispatcher("report.jsp").forward(request, response);
     }
 

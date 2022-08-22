@@ -24,11 +24,11 @@
         </h4>
         <h1 id="banner">BẢNG CHẤM CÔNG</h1>
         <h3>
-            <b id="banner">THÁNG 08/2022</b>
+            <b id="banner">THÁNG 07/2022</b>
         </h3>
         <form class="months" action="report" method="post">
             <p>Tháng</p>
-            <input type="month" id="months" name="months">
+            <input type="month" id="months" name="months"">
             <button type="submit">Go</button>
         </form>
 
@@ -172,10 +172,10 @@
                 </tbody>
             </table>
             <div id="footer-button" >
-                <button class="button button1">Tổng Ngày Công</button><br>
-                <button class="button button1">Tổng Các Ngày Nghỉ</button><br>
-                <button class="button button1">Tổng Lương</button><br>
-                <button class="button button2">Lưu</button><br>
+                <button class="button button1" name="totalworking">Tổng Ngày Công</button><br>
+                <button class="button button1" name="totalleave">Tổng Các Ngày Nghỉ</button><br>
+                <button class="button button1" name="totalsalary">Tổng Lương</button><br>
+                <button class="button button2" name="save">Lưu</button><br>
             </div>
 
         </div>
