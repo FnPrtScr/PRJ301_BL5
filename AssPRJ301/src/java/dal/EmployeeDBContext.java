@@ -22,9 +22,9 @@ import model.Working;
  * @author MrTuan
  */
 public class EmployeeDBContext extends DBContext {
-    
-        public ArrayList<Employee> getEmployees(int wdate) {
-        ArrayList<Employee> total = new ArrayList<>();
+
+    public ArrayList<Employee> getTotalWorking(int wdate) {
+        ArrayList<Employee> totalWorking = new ArrayList<>();
         try {
             String sql = "SELECT e.eid,[name],e.office, ISNULL(w.wid,-1) wid, w.wdate FROM Employee e\n"
                     + "                    LEFT JOIN (SELECT * FROM Working WHERE MONTH(wdate) = ? ) w \n"
@@ -41,24 +41,24 @@ public class EmployeeDBContext extends DBContext {
                     curEmp.setEid(eid);
                     curEmp.setName(rs.getString("name"));
                     curEmp.setOffice(rs.getString("office"));
-                    total.add(curEmp);
+                    totalWorking.add(curEmp);
                 }
-                int tid = rs.getInt("wid");
-                if (tid != -1) {
+                int wid = rs.getInt("wid");
+                if (wid != -1) {
                     Working w = new Working();
                     w.setEmp(curEmp);
-                    w.setWid(tid);
-                    w.setWdate(DateTimeHelper.getDateFrom(rs.getTimestamp("wdate")));
+                    w.setWid(wid);
+                    w.setWdate(rs.getDate("wdate"));
                     curEmp.getWorking().add(w);
                 }
             }
         } catch (SQLException ex) {
             Logger.getLogger(EmployeeDBContext.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return total;
+        return totalWorking;
     }
 
-    public ArrayList<Working> getTimeSheet(int month) {
+    public ArrayList<Working> Working(int month) {
         ArrayList<Working> working = new ArrayList<>();
         try {
             String sql = "SELECT e.eid, e.name, w.wdate FROM Employee e, SalaryOffice s, Working w \n"
@@ -68,10 +68,8 @@ public class EmployeeDBContext extends DBContext {
             ResultSet rs = stm.executeQuery();
             while (rs.next()) {
                 Working w = new Working();
-                Employee emp = new Employee();
                 w.setEid(rs.getInt("eid"));
                 w.setWdate(rs.getDate("wdate"));
-                w.setWdate(DateTimeHelper.getDateFrom(rs.getTimestamp("wdate")));
                 working.add(w);
 
             }
@@ -82,16 +80,78 @@ public class EmployeeDBContext extends DBContext {
         }
         return working;
     }
-    
-    
 
+    public ArrayList<Leave> Leave(int lfrom, int lto) {
+        ArrayList<Leave> leave = new ArrayList<>();
+        try {
+            String sql = "SELECT e.eid, [name], l.lfrom,l.lto,l.reason FROM Employee e, SalaryOffice s, Leave l\n"
+                    + "WHERE e.office = s.office AND e.eid = l.eid AND MONTH(l.lfrom) >= ? And MONTH(l.lto)<=?";
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setInt(1, lfrom);
+            stm.setInt(2, lto);
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {
+                Leave l = new Leave();
+                l.setEid(rs.getInt("eid"));
+                l.setLfrom(rs.getDate("lfrom"));
+                l.setLto(rs.getDate("lto"));
+                l.setReason(rs.getString("reason"));
+                leave.add(l);
+            }
 
+        } catch (SQLException ex) {
+            Logger.getLogger(EmployeeDBContext.class.getName()).log(Level.SEVERE, null, ex);
+
+        }
+        return leave;
+    }
+//
+
+    public ArrayList<Employee> getTotalLeave(int lfrom, int lto) {
+        ArrayList<Employee> totalLeave = new ArrayList<>();
+        try {
+            String sql = "SELECT e.eid,[name],e.office, ISNULL(l.lid,-1) lid, l.lfrom,lto,l.reason FROM Employee e \n"
+                    + "LEFT JOIN (SELECT * FROM Leave WHERE MONTH(lfrom) = ? and MONTH(lto) = ? ) l \n"
+                    + "ON e.eid = l.eid";
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setInt(1, lfrom);
+            stm.setInt(2, lto);
+            ResultSet rs = stm.executeQuery();
+            Employee curEmp = new Employee();
+            curEmp.setEid(-1);
+            while (rs.next()) {
+                int eid = rs.getInt("eid");
+                if (eid != curEmp.getEid()) {
+                    curEmp = new Employee();
+                    curEmp.setEid(eid);
+                    curEmp.setName(rs.getString("name"));
+                    curEmp.setOffice(rs.getString("office"));
+                    totalLeave.add(curEmp);
+
+                }
+                int lid = rs.getInt("lid");
+                if (lid != -1) {
+                    Leave l = new Leave();
+                    l.setEmp(curEmp);
+                    l.setLid(lid);
+                    l.setReason(rs.getString("reason"));
+                    l.setLfrom(rs.getDate("lfrom"));
+                    l.setLfrom(rs.getDate("lto"));
+                    curEmp.getLeaves().add(l);
+                }
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(EmployeeDBContext.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return totalLeave;
+    }
 
     public static void main(String[] args) {
+
         EmployeeDBContext ts = new EmployeeDBContext();
-        ArrayList<Employee> total = ts.getEmployees(7);
-        for (Employee timesheet1 : total) {
-            System.out.println(timesheet1.getOffice());
+        ArrayList<Employee> timesheet = ts.getTotalLeave(7, 7);
+        for (Employee timesheet1 : timesheet) {
+            System.out.println(timesheet1.getNumberOfLeaveDays());
         }
 
     }

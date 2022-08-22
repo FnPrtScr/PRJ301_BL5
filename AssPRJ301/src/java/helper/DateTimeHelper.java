@@ -62,17 +62,6 @@ public class DateTimeHelper {
         return newdate;
     }
 
-    public static Date removeTime2(Date d) {
-        Calendar c = Calendar.getInstance();
-        c.setTime(d);
-        c.set(Calendar.HOUR_OF_DAY, 0);
-        c.set(Calendar.MINUTE, 0);
-        c.set(Calendar.SECOND, 0);
-        c.set(Calendar.MILLISECOND, 0);
-        Date newdate = c.getTime();
-        return newdate;
-    }
-
     public static ArrayList<Date> getDates(Date from, Date to) {
         ArrayList<Date> dates = new ArrayList<>();
         int count = 0;

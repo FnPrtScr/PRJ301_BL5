@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import model.Employee;
+import model.Leave;
 import model.Working;
 
 /**
@@ -103,16 +104,20 @@ public class TimeSheetReportController extends HttpServlet {
         
         EmployeeDBContext db = new EmployeeDBContext();
         
-//        
-//        ArrayList<Employee> employees = db.getAllEmployee();
-//        request.setAttribute("employees", employees);
-        ArrayList<Employee> total=db.getEmployees(7);
-        request.setAttribute("total", total);
+//        get total working
+        ArrayList<Employee> totalWorking=db.getTotalWorking(7);
+        request.setAttribute("totalWorking", totalWorking);
         
-//        working
-        ArrayList<Working> working = db.getTimeSheet(7);
-        request.setAttribute("working", working);        
+//        working timesheet
+        ArrayList<Working> working = db.Working(7);
+        request.setAttribute("working", working); 
+//        leave timesheet
+        ArrayList<Leave> leave = db.Leave(7,8);
+        request.setAttribute("leave", leave);        
        
+//        get total leave
+//        ArrayList<Employee> totalLeave=db.getTotalLeave(7,7);
+//        request.setAttribute("totalLeave",totalLeave);
         
         request.getRequestDispatcher("report.jsp").forward(request, response);
     }

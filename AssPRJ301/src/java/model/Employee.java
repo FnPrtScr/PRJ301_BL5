@@ -24,6 +24,9 @@ public class Employee {
     public void setWorking(ArrayList<Working> working) {
         this.working = working;
     }
+    public int getNumberOfLeaveDays(){
+        return leaves.size();
+    }
     
     public int getNumberOfWorkingDays(){
         return working.size();

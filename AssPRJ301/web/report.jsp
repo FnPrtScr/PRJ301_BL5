@@ -40,7 +40,7 @@
             <th colspan="31" >Ngày trong tháng</th>
             <th rowspan="5" >Tổng Cộng</th>
             <th rowspan="5" >Đã Ứng</th>
-            <th rowspan="4" colspan="3" >Ngày Nghỉ</th>
+            <th rowspan="5">Tổng Ngày Nghỉ</th>
             <th rowspan="5">Tổng Lương</th>
 
             <tr></tr>
@@ -66,17 +66,14 @@
                                     value = "${d}" />
                 </th>
             </c:forEach>
-            <th>Nghỉ Không Lương</th>
-            <th>Nghỉ Phép</th>
-            <th>Lí Do Khác</th>
             <tr></tr>
 
-            <c:forEach items="${requestScope.total}" var="tl">
-
+            <c:forEach items="${requestScope.totalWorking}" var="tw">
+                
                 <tr>
-                    <td>${tl.eid}</td>
-                    <td>${tl.name}</td>
-                    <td>${tl.office}</td>
+                    <td>${tw.eid}</td>
+                    <td>${tw.name}</td>
+                    <td>${tw.office}</td>
                     <c:forEach items="${requestScope.dates}" var="d">
                         <th
                             <c:if test="${dt.getDayOfWeek(d) eq 6 or dt.getDayOfWeek(d) eq 7}">
@@ -84,18 +81,25 @@
                             </c:if>
                             >
                             <c:forEach items="${requestScope.working}" var="w">
-                                <c:if test="${w.wdate eq d && w.eid eq tl.eid}">
+                                <c:if test="${w.wdate eq d && w.eid eq tw.eid}">
                                     x
+                                </c:if>
+                            </c:forEach>
+                            <c:forEach items="${requestScope.leave}" var="l">
+                                <c:if test="${l.lfrom >= d && l.lto <=d && l.eid eq tw.eid}">
+                                    ${l.reason}
                                 </c:if>
                             </c:forEach>
 
                         </th>
 
                     </c:forEach>
-                    <th>${tl.getNumberOfWorkingDays()}</th>
-
+                    <th>${tw.getNumberOfWorkingDays()}</th>
+                    <th></th>
+                    <th>${tl.getNumberOfLeaveDays()}</th>
+                    <th></th>
                 </tr>
-
+                
             </c:forEach>
 
         </table>
